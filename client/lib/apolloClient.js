@@ -1,14 +1,18 @@
 import { useMemo } from 'react';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 // import { concatPagination } from '@apollo/client/utilities';
 
 let apolloClient;
 
 function createApolloClient() {
+  const link = createHttpLink({
+    uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
+    credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
+  });
+
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
-    credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+    link,
     cache: new InMemoryCache()
   });
 }
