@@ -62,9 +62,9 @@ export const resolvers = {
       }
 
       // sending the jwt along with the response
-      res.cookie('jwt', sign({ user_id: user.id }, process.env.JWT_REFRESH_SECRET), {
+      res.cookie('jwt', sign({ user_id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '15m' }), {
         expiresIn: '15m',
-        httpOnly: true
+        httpOnly: process.env.NODE_ENV !== 'development'
       });
 
       return user; // return the user
