@@ -26,7 +26,7 @@ const LogInPage = () => {
   return (
     <div>
       <Head>
-        <title>SoundQ</title>
+        <title>mango-bucket</title>
       </Head>
       <div style={{ padding: '1rem' }}>
         <strong>Log In</strong>

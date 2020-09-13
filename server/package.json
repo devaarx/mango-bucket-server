@@ -1,7 +1,7 @@
 {
-  "name": "soundq-server",
+  "name": "mango-bucket-server",
   "version": "0.1.0",
-  "description": "SoundQ Node Express Server",
+  "description": "mango-bucket Server",
   "main": "src/app.js",
   "author": "iamdebadipti <iamdebadipti@gmail.com>",
   "license": "MIT",

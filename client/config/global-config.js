@@ -1,5 +1,5 @@
 const globalConfig = {
-  iconSize: '20' // default icon size
+  icon_base: '18' // base icon size
 };
 
 export default globalConfig;

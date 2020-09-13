@@ -6,7 +6,7 @@ import { Layout } from '../components/Layout';
 const IndexPage = () => (
   <Fragment>
     <Head>
-      <title>SoundQ</title>
+      <title>mango-bucket</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Layout>

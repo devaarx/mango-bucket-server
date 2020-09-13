@@ -1,8 +1,7 @@
 {
-  "name": "soundq-client",
+  "name": "mango-bucket-client",
   "version": "0.1.0",
-  "description": "SoundQ Node Express Server",
-  "main": "src/app.js",
+  "description": "mango-bucket Client",
   "author": "iamdebadipti <iamdebadipti@gmail.com>",
   "license": "MIT",
   "private": true,
@@ -17,5 +16,8 @@
     "next": "latest",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
+  },
+  "resolutions": {
+    "**/**/node-fetch": ">=2.6.1"
   }
 }
