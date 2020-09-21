@@ -1,28 +1,25 @@
-import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import mongoose from 'mongoose';
 import 'dotenv/config';
-import cors from 'cors';
-
-import { resolvers } from './resolvers';
-import { typeDefs } from './typeDefs';
+import 'reflect-metadata';
+import * as express from 'express';
+import * as cors from 'cors';
+import { ApolloServer } from 'apollo-server-express';
+import { createConnection } from 'typeorm';
+import { buildSchema } from 'type-graphql';
+import { Me } from './resolvers/Me';
 
 (async () => {
   const app = express(); // express instantiate
+  await createConnection(); // create typeorm postgres connection
   // enable cors
-  var corsOptions = {
-    origin: 'http://localhost:3000',
-    credentials: true
-  };
+  var corsOptions = { origin: 'http://localhost:3000', credentials: true };
   app.use(cors(corsOptions));
   // create new apollo server
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema: await buildSchema({
+      resolvers: [Me]
+    }),
     context: ({ req, res }) => ({ req, res }) // set req & res as the context
   });
-  // connect to mongo
-  await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   // after connecting to mongo apply apollo middleware
   server.applyMiddleware({ app });
   // listen to apollo server
