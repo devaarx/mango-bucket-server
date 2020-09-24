@@ -1,15 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { IsDate, IsEmail } from 'class-validator';
 
 @ObjectType()
 @Entity()
 export class User {
-  @Field(() => String)
+  @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field()
+  @Field(() => String)
   @Column()
   name: string;
 
@@ -21,7 +21,13 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Field()
+  @CreateDateColumn()
   @IsDate()
   created_at: Date;
+
+  @Field()
+  @UpdateDateColumn()
+  @IsDate()
+  updated_at: Date;
 }
