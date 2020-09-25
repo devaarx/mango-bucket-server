@@ -1,33 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { IsDate, IsEmail } from 'class-validator';
+import { IsEmail, Length } from 'class-validator';
 
 @ObjectType()
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Field(() => String)
   @Column()
+  @Length(2, 30)
   name: string;
 
   @Field()
   @Column()
-  @IsEmail()
+  @IsEmail({}, { message: 'bad email address' })
   email: string;
 
+  @Length(2)
   @Column()
   password: string;
 
   @Field()
   @CreateDateColumn()
-  @IsDate()
   created_at: Date;
 
   @Field()
   @UpdateDateColumn()
-  @IsDate()
   updated_at: Date;
 }
