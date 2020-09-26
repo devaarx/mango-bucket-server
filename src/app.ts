@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
 import { AuthResolver } from './resolvers/AuthResolver';
+import { UserResolver } from './resolvers/UserResolver';
 
 (async () => {
   const app = express(); // express instantiate
@@ -16,7 +17,7 @@ import { AuthResolver } from './resolvers/AuthResolver';
   // create new apollo server
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AuthResolver]
+      resolvers: [AuthResolver, UserResolver]
     }),
     context: ({ req, res }) => ({ req, res }) // set req & res as the context
   });

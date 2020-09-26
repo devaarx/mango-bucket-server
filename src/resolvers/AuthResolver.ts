@@ -1,7 +1,7 @@
 import { compare, hash } from 'bcryptjs';
 import { validate } from 'class-validator';
 import { sign } from 'jsonwebtoken';
-import { Args, ArgsType, Ctx, Field, Mutation, Query, Resolver } from 'type-graphql';
+import { Args, ArgsType, Ctx, Field, Mutation, Resolver } from 'type-graphql';
 import { User } from '../entity/User';
 import { Context } from '../interfaces/context';
 
@@ -30,12 +30,6 @@ class LoginArgs {
 
 @Resolver()
 export class AuthResolver {
-  // hello query
-  @Query(() => String)
-  hello() {
-    return 'hello world!';
-  }
-
   // register mutation
   @Mutation(() => User)
   async register(@Args() { name, email, password }: RegisterArgs) {
@@ -64,6 +58,7 @@ export class AuthResolver {
     }
   }
 
+  // login mutation
   @Mutation(() => User)
   async login(@Args() { email, password }: LoginArgs, @Ctx() { res }: Context) {
     const user = await User.findOne({ email }); // check for user
@@ -78,7 +73,7 @@ export class AuthResolver {
       throw Error('invalid password');
     }
 
-    const signedId = await sign({ user_id: user.id }, process.env.JWT_SECRET_TOKEN, { expiresIn: '1d' }); // jwt signed userid
+    const signedId = await sign({ id: user.id }, process.env.JWT_SECRET_TOKEN, { expiresIn: '1d' }); // jwt signed userid
     res.cookie('jwt', signedId, { httpOnly: true, maxAge: 3600000 * 24 }); // set cookie
 
     return user;
