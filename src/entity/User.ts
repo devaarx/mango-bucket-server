@@ -1,6 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  OneToMany
+} from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { IsEmail, Length } from 'class-validator';
+import { Bucket } from './Bucket';
 
 @ObjectType()
 @Entity()
@@ -9,14 +18,14 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => String)
+  @Field()
   @Column()
   @Length(2, 30)
   name: string;
 
   @Field()
   @Column()
-  @IsEmail({}, { message: 'bad email address' })
+  @IsEmail()
   email: string;
 
   @Length(2)
@@ -30,4 +39,7 @@ export class User extends BaseEntity {
   @Field()
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Bucket, (bucket) => bucket.user)
+  buckets: Bucket[];
 }
