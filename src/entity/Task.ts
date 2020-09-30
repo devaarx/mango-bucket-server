@@ -5,32 +5,33 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
-  OneToMany
+  ManyToOne
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { IsEmail, Length } from 'class-validator';
 import { Bucket } from './Bucket';
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Task extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Field()
   @Column()
-  @Length(2, 30)
   name: string;
 
   @Field()
-  @Column()
-  @IsEmail()
-  email: string;
+  @Column({ nullable: true })
+  description: string;
 
-  @Length(2)
+  @Field()
   @Column()
-  password: string;
+  status: string;
+
+  @Field()
+  @Column()
+  schedule_time: Date;
 
   @Field()
   @CreateDateColumn()
@@ -40,6 +41,6 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Bucket, (bucket) => bucket.user)
-  buckets: Bucket[];
+  @ManyToOne(() => Bucket, (bucket) => bucket.tasks)
+  bucket: Bucket;
 }

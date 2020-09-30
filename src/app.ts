@@ -7,6 +7,8 @@ import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { UserResolver } from './resolvers/UserResolver';
+import { BucketResolver } from './resolvers/BucketResolver';
+import { TaskResolver } from './resolvers/TaskResolver';
 
 (async () => {
   const app = express(); // express instantiate
@@ -17,7 +19,7 @@ import { UserResolver } from './resolvers/UserResolver';
   // create new apollo server
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AuthResolver, UserResolver]
+      resolvers: [AuthResolver, UserResolver, BucketResolver, TaskResolver]
     }),
     context: ({ req, res }) => ({ req, res }) // set req & res as the context
   });
