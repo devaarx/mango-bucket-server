@@ -1,4 +1,4 @@
-import { Args, ArgsType, Field, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Args, ArgsType, Field, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Bucket } from '../entity/Bucket';
 import { Task } from '../entity/Task';
 import { isAuth } from '../middlewares/isAuth';
@@ -20,6 +20,25 @@ class TaskArgs {
 
   @Field()
   bucket_id: string;
+}
+
+// task update arg types
+@ArgsType()
+class TaskUpdateArgs {
+  @Field()
+  task_id: string;
+
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  description: string;
+
+  @Field({ nullable: true })
+  status: string;
+
+  @Field({ nullable: true })
+  schedule_time: Date;
 }
 
 @Resolver()
@@ -53,6 +72,35 @@ export class TaskResolver {
       console.log(error);
     }
 
+    return task;
+  }
+
+  // delete task mutation
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteTask(@Arg('task_id') task_id: string) {
+    const task = await Task.findOne({ id: task_id }); // find task
+
+    if (!task) {
+      throw new Error('task not found');
+    }
+
+    try {
+      await Task.delete({ id: task_id }); // delete task
+    } catch (error) {
+      console.log(error);
+    }
+
+    return true;
+  }
+
+  // update task mutation
+  @Mutation(() => Task)
+  @UseMiddleware(isAuth)
+  async updateTask(@Args() { task_id, ...args }: TaskUpdateArgs) {
+    await Task.update({ id: task_id }, { ...args }); // update the task
+    const task = await Task.findOne({ id: task_id }); // find th updated task
+    // return the task
     return task;
   }
 }
