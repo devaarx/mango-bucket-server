@@ -35,6 +35,10 @@ export class TaskResolver {
   async createTask(@Args() { name, description, status, schedule_time, bucket_id }: TaskArgs) {
     const bucket = await Bucket.findOne({ id: bucket_id });
 
+    if (!bucket) {
+      throw new Error('bucket not found');
+    }
+
     const task = new Task();
 
     task.name = name;
