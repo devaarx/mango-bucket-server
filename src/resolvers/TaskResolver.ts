@@ -43,9 +43,16 @@ class TaskUpdateArgs {
 
 @Resolver()
 export class TaskResolver {
-  @Query(() => String)
-  async helloTask() {
-    return 'task hello';
+  // task info query
+  @Query(() => Task)
+  async taskInfo(@Arg('task_id') task_id: string) {
+    const task = await Task.findOne({ id: task_id }); // find task
+
+    if (!task) {
+      throw new Error('no task found');
+    }
+
+    return task;
   }
 
   // create task mutation
@@ -89,6 +96,7 @@ export class TaskResolver {
       await Task.delete({ id: task_id }); // delete task
     } catch (error) {
       console.log(error);
+      return false;
     }
 
     return true;
