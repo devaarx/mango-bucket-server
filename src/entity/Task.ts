@@ -41,6 +41,6 @@ export class Task extends BaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Bucket, (bucket) => bucket.tasks)
+  @ManyToOne(() => Bucket, (bucket) => bucket.tasks, { onDelete: 'CASCADE' }) // cascade delete of tasks
   bucket: Bucket;
 }
