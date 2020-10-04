@@ -12,10 +12,11 @@ import { TaskResolver } from './resolvers/TaskResolver';
 
 (async () => {
   const app = express(); // express instantiate
-  await createConnection(); // create typeorm postgres connection
   // enable cors
-  var corsOptions = { origin: 'http://localhost:3000', credentials: true };
+  let corsOptions = { origin: 'http://localhost:3000', credentials: true };
   app.use(cors(corsOptions));
+  // create typeorm postgres connection
+  await createConnection();
   // create new apollo server
   const server = new ApolloServer({
     schema: await buildSchema({
