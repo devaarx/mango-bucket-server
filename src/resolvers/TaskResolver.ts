@@ -45,6 +45,7 @@ class TaskUpdateArgs {
 export class TaskResolver {
   // task info query
   @Query(() => Task)
+  @UseMiddleware(isAuth)
   async taskInfo(@Arg('task_id') task_id: string) {
     const task = await Task.findOne({ id: task_id }); // find task
 

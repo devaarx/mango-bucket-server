@@ -46,6 +46,7 @@ class BucketUpdateArgs {
 export class BucketResolver {
   // bucket info query
   @Query(() => Bucket)
+  @UseMiddleware(isAuth)
   async bucketInfo(@Arg('bucket_id') bucket_id: string) {
     const bucket = await Bucket.findOne({ id: bucket_id }, { relations: ['tasks'] }); // find bucket with tasks relation
 
