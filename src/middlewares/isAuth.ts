@@ -3,15 +3,14 @@ import { verify } from 'jsonwebtoken';
 import { Context } from '../interfaces/context';
 
 export const isAuth: MiddlewareFn<Context> = ({ context }, next) => {
-  const authorization = context.req.headers.cookie; // request cookie
+  const jwtToken = context.req.cookies.jwt; // request cookie
 
-  if (!authorization) {
+  if (!jwtToken) {
     throw new Error('not authenticated');
   }
 
   try {
-    const token = authorization.split('=')[1]; // extract the token from cookie
-    const payload = verify(token, process.env.JWT_SECRET_TOKEN); // validate cookie
+    const payload = verify(jwtToken, process.env.JWT_SECRET_TOKEN); // validate cookie
     context.user = payload as any; // set the user in req context
   } catch (err) {
     console.log(err);

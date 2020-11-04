@@ -9,9 +9,12 @@ import { AuthResolver } from './resolvers/AuthResolver';
 import { UserResolver } from './resolvers/UserResolver';
 import { BucketResolver } from './resolvers/BucketResolver';
 import { TaskResolver } from './resolvers/TaskResolver';
+import * as cookieParser from 'cookie-parser';
 
 (async () => {
   const app = express(); // express instantiate
+  // use cookie parser
+  app.use(cookieParser());
   // enable cors
   let corsOptions = { origin: 'http://localhost:3000', credentials: true };
   app.use(cors(corsOptions));
