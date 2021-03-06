@@ -26,7 +26,7 @@ export class Task extends BaseEntity {
   description: string;
 
   @Field()
-  @Column()
+  @Column({ default: 'PENDING' })
   status: string;
 
   @Field()

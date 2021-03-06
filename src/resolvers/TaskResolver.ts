@@ -12,7 +12,7 @@ class TaskArgs {
   @Field({ nullable: true })
   description: string;
 
-  @Field()
+  @Field({ nullable: true })
   status: string;
 
   @Field()
